@@ -408,7 +408,7 @@ def play_a_match_pair(match: MatchPair, output_file: str):
     return result
 
 
-def setup_openai_api(model: str, use_azure=True):
+def setup_openai_api(model: str, use_azure=False):
     from functools import partial
 
     if model == "gpt-3.5-turbo":
@@ -425,6 +425,7 @@ def setup_openai_api(model: str, use_azure=True):
         openai.api_version = "2023-05-15"  # subject to change
         return partial(openai.ChatCompletion.create, deployment_id=deployment_id)
     else:
+        openai.api_key = os.environ['OPENAI_API_KEY']
         return openai.ChatCompletion.create
     
 
